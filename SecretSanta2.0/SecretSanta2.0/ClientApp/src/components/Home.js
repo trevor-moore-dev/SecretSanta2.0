@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter, Link, Redirect } from 'react-router-dom';
-import { connect } from "react-redux";
-import { UserIsValid, TryGetToken } from "../services/authService";
+import { connect } from 'react-redux';
+import { UserIsValid, TryGetToken } from '../services/authService';
+import { HubConnectionBuilder } from '@aspnet/signalr';
 import Cookies from 'js-cookie';
 import config from '../config.json';
 
@@ -11,12 +12,14 @@ class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			participantNames: [],
+            participantNames: [],
+            hubConnection: null,
 			secretSanta: [ '', '', '', '', '', '', ],
 			selectedName: '',
 			validationError: '',
 			status: 0,
-		};
+        };
+        this._ismounted = false;
 		this.checkForm = this.checkForm.bind(this);
 		this.postForm = this.postForm.bind(this);
 		this.printPage = this.printPage.bind(this);
@@ -190,19 +193,30 @@ class Home extends Component {
 		);
 	}
 
-	componentDidMount() {
-		fetch(config.GET_USERS_URL)
-		.then((response) => {
-			return response.json();
-		})
-		.then(data => {
-			let namesFromApi = data.participants.map(name => { return { value: name, display: name } })
-			this.setState({ participantNames: [{ value: '', display: 'Please Select Your Name' }].concat(namesFromApi) });
-		})
-		.catch(error => {
-			console.error(error);
-		});
-	}
+    componentDidMount = () => {
+        this._ismounted = true;
+        const connection = new HubConnectionBuilder()
+            .withUrl(config.SIGNALR_HUB_GET_PARTICIPANTS_URL)
+            .build();
+        this.setState({ hubConnection: connection }, () => {
+            this.state.hubConnection.start()
+                .then(() => {
+                    this.state.hubConnection.on(config.SIGNALR_HUB_GET_PARTICIPANTS, (data) => {
+                        if (this._ismounted) {
+                            let participants = data.participants.map(name => { return { value: name, display: name } })
+                            this.setState({ participantNames: [{ value: '', display: 'Please Select Your Name' }].concat(participants) });
+                        }
+                    });
+                    this.state.hubConnection.invoke(config.SIGNALR_HUB_GET_PARTICIPANTS)
+                        .catch(error => console.error(error));
+                })
+                .catch(error => console.error(error));
+        });
+    }
+
+    componentWillUnmount() {
+        this._ismounted = false;
+    }
 };
 
 const mapStateToProps = (state) => {

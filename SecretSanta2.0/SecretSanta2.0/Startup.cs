@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SecretSanta2._0.Services.Business;
 using SecretSanta2._0.Services.Data;
+using SecretSanta2._0.Services.SignalR;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -68,7 +69,9 @@ namespace SecretSanta2._0
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
 
-			if (CurrentEnvironment.IsDevelopment() && !RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            services.AddSignalR();
+
+            if (CurrentEnvironment.IsDevelopment() && !RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 			{
 				services.AddSingleton<ISantaDAO>(service => new SantaDAO(Configuration["ConnectionStrings:LocalDB"]));
 			}
@@ -107,12 +110,13 @@ namespace SecretSanta2._0
 			app.UseAuthorization();
 			app.UseCookiePolicy();
 
-			app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller}/{action=Index}/{id?}");
-			});
+                endpoints.MapHub<SantaHub>("/SantaHub");
+            });
 
 			app.UseSpa(spa =>
 			{
