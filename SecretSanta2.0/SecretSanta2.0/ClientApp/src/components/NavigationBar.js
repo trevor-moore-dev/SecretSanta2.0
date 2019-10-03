@@ -1,11 +1,11 @@
-﻿import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter, NavLink, Link } from "react-router-dom";
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem } from 'reactstrap';
-import { UserIsValid } from "../services/authService";
-import '../resources/css/NavigationBar.css';
-import '../resources/css/Christmas.css';
+﻿import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem } from 'reactstrap';
+import { withRouter, NavLink, Link } from 'react-router-dom';
+import { UserIsValid } from '../helpers/authHelper';
 import logo from '../resources/images/Holly.png';
+import '../resources/css/NavigationBar.css';
+import React, { Component } from 'react';
+import '../resources/css/Christmas.css';
+import { connect } from 'react-redux';
 
 class NavigationBar extends Component {
 	static displayName = NavigationBar.name;
@@ -55,7 +55,8 @@ class NavigationBar extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		auth: state.auth
+        auth: state.auth,
+        signalR: state.signalR
 	};
 };
 

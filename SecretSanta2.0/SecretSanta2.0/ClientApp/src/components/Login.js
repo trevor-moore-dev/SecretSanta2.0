@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import { UserIsValid, login } from '../helpers/authHelper';
+import { withRouter, Redirect } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import { connect } from "react-redux";
-import { login } from "../actions/authActions";
-import { UserIsValid } from "../services/authService";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import config from '../config.json';
-import { withRouter, Redirect } from "react-router-dom";
 
 class Login extends Component {
 
@@ -78,7 +77,8 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		auth: state.auth
+        auth: state.auth,
+        signalR: state.signalR
 	};
 };
 

@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
 import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
 
 export function UserIsValid(token) {
 	let expiration;
@@ -29,4 +29,22 @@ export function TryGetToken(token) {
 		return 'Bearer ' + cookieToken;
 	}
 	return '';
+}
+
+export function login(token) {
+    return dispath => {
+        dispath({
+            type: "LOGIN",
+            payload: token
+        });
+    }
+}
+
+export function logout() {
+    return dispath => {
+        dispath({
+            type: "LOGOUT",
+            payload: ""
+        });
+    };
 }

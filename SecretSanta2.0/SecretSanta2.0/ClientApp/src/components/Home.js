@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import { getSignalRConnection, storeSignalRConnection } from '../helpers/signalRHelper';
+import { UserIsValid, TryGetToken } from '../helpers/authHelper';
 import { withRouter, Link, Redirect } from 'react-router-dom';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { UserIsValid, TryGetToken } from '../services/authService';
-import { HubConnectionBuilder } from '@aspnet/signalr';
-import Cookies from 'js-cookie';
 import config from '../config.json';
+import Cookies from 'js-cookie';
 
 class Home extends Component {
 	static displayName = Home.name;
@@ -22,7 +22,7 @@ class Home extends Component {
         this._ismounted = false;
 		this.checkForm = this.checkForm.bind(this);
 		this.postForm = this.postForm.bind(this);
-		this.printPage = this.printPage.bind(this);
+        this.printPage = this.printPage.bind(this);
 	}
 
 	printPage() {
@@ -192,26 +192,21 @@ class Home extends Component {
 			</div>
 		);
 	}
-
+    
     componentDidMount = () => {
         this._ismounted = true;
-        const connection = new HubConnectionBuilder()
-            .withUrl(config.SIGNALR_HUB_GET_PARTICIPANTS_URL)
-            .build();
-        this.setState({ hubConnection: connection }, () => {
-            this.state.hubConnection.start()
-                .then(() => {
-                    this.state.hubConnection.on(config.SIGNALR_HUB_GET_PARTICIPANTS, (data) => {
-                        if (this._ismounted) {
-                            let participants = data.participants.map(name => { return { value: name, display: name } })
-                            this.setState({ participantNames: [{ value: '', display: 'Please Select Your Name' }].concat(participants) });
-                        }
-                    });
-                    this.state.hubConnection.invoke(config.SIGNALR_HUB_GET_PARTICIPANTS)
-                        .catch(error => console.error(error));
+        getSignalRConnection(this.props.signalR, config.SIGNALR_SANTA_HUB)
+            .then((conn) => {
+                this.props.storeSignalRConnection(conn);
+                conn.on(config.SIGNALR_SANTA_HUB_GET_PARTICIPANTS, (data) => {
+                    if (this._ismounted) {
+                        let participants = data.participants.map(name => { return { value: name, display: name } })
+                        this.setState({ participantNames: [{ value: '', display: 'Please Select Your Name' }].concat(participants) });
+                    }
                 })
-                .catch(error => console.error(error));
-        });
+                conn.invoke(config.SIGNALR_SANTA_HUB_GET_PARTICIPANTS);
+            })
+            .catch(error => console.error(error));
     }
 
     componentWillUnmount() {
@@ -221,8 +216,17 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		auth: state.auth
+        auth: state.auth,
+        signalR: state.signalR
 	};
 };
 
-export default withRouter(connect(mapStateToProps)(Home));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storeSignalRConnection: (url) => {
+            dispatch(storeSignalRConnection(url));
+        }
+    }
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

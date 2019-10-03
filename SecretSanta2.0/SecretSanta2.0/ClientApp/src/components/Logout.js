@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
-import { logout } from "../actions/authActions";
+import { logout } from '../helpers/authHelper';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Logout extends Component {
     UNSAFE_componentWillMount(){
@@ -25,7 +25,8 @@ class Logout extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		auth: state.auth
+        auth: state.auth,
+        signalR: state.signalR
 	};
 };
   

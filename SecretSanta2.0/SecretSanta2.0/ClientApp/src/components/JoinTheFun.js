@@ -1,10 +1,10 @@
-﻿import React, { Component } from 'react';
-import { connect } from 'react-redux';
+﻿import { getSignalRConnection, storeSignalRConnection } from '../helpers/signalRHelper';
+import { UserIsValid, TryGetToken } from '../helpers/authHelper';
 import { withRouter, Link, Redirect } from 'react-router-dom';
-import { UserIsValid, TryGetToken } from '../services/authService';
-import { HubConnectionBuilder } from '@aspnet/signalr';
-import Cookies from 'js-cookie';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import config from '../config.json';
+import Cookies from 'js-cookie';
 
 class JoinTheFun extends Component {
 	static displayName = JoinTheFun.name;
@@ -88,7 +88,7 @@ class JoinTheFun extends Component {
                 nameValidationError: nameError,
                 status: data
             });
-            this.state.hubConnection.invoke(config.SIGNALR_HUB_GET_PARTICIPANTS)
+            this.props.signalR.connection.invoke(config.SIGNALR_SANTA_HUB_GET_PARTICIPANTS)
 		})
 		.catch(error => {
 			console.error(error);
@@ -187,21 +187,26 @@ class JoinTheFun extends Component {
     }
 
     componentDidMount = () => {
-        const connection = new HubConnectionBuilder()
-            .withUrl(config.SIGNALR_HUB_GET_PARTICIPANTS_URL)
-            .build();
-        this.setState({ hubConnection: connection }, () => {
-            this.state.hubConnection.start()
-                .then(() => console.log('SignalR connection started!'))
-                .catch(error => console.error(error));
-        });
+        getSignalRConnection(this.props.signalR, config.SIGNALR_SANTA_HUB)
+            .then((conn) => {
+                this.props.storeSignalRConnection(conn);
+            });
     }
 };
 
 const mapStateToProps = (state) => {
 	return {
-		auth: state.auth
+        auth: state.auth,
+        signalR: state.signalR
 	};
 };
 
-export default withRouter(connect(mapStateToProps)(JoinTheFun));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storeSignalRConnection: (connection) => {
+            dispatch(storeSignalRConnection(connection));
+        }
+    }
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(JoinTheFun));

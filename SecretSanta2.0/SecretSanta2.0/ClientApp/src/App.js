@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
-import Home from './components/Home';
+import { Route, Switch } from 'react-router-dom';
 import JoinTheFun from './components/JoinTheFun';
-import Login from "./containers/Login";
-import Logout from "./containers/Logout";
+import Logout from './components/Logout';
+import React, { Component } from 'react';
+import Login from './components/Login';
+import Home from './components/Home';
 
 const NotFound = () => (
 	<div className="form-horizontal">
