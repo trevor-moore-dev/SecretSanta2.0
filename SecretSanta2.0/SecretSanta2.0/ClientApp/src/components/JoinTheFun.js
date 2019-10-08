@@ -12,21 +12,14 @@ class JoinTheFun extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			names: [],
 			inputName: '',
 			inputWishlist: '',
 			nameValidationError: '',
             wishlistValidationError: '',
-            hubConnection: null,
 			status: 0,
 		};
 		this.checkForm = this.checkForm.bind(this);
 		this.postForm = this.postForm.bind(this);
-		this.printPage = this.printPage.bind(this);
-	}
-
-	printPage() {
-		window.print();
 	}
 
 	checkForm(event) {
@@ -190,7 +183,8 @@ class JoinTheFun extends Component {
         getSignalRConnection(this.props.signalR, config.SIGNALR_SANTA_HUB)
             .then((conn) => {
                 this.props.storeSignalRConnection(conn);
-            });
+			})
+			.catch(error => console.error(error));
     }
 };
 

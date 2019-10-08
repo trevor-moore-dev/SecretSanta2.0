@@ -13,7 +13,6 @@ class Home extends Component {
 		super(props);
 		this.state = {
             participantNames: [],
-            hubConnection: null,
 			secretSanta: [ '', '', '', '', '', '', ],
 			selectedName: '',
 			validationError: '',
@@ -198,12 +197,12 @@ class Home extends Component {
         getSignalRConnection(this.props.signalR, config.SIGNALR_SANTA_HUB)
             .then((conn) => {
                 this.props.storeSignalRConnection(conn);
-                conn.on(config.SIGNALR_SANTA_HUB_GET_PARTICIPANTS, (data) => {
-                    if (this._ismounted) {
-                        let participants = data.participants.map(name => { return { value: name, display: name } })
-                        this.setState({ participantNames: [{ value: '', display: 'Please Select Your Name' }].concat(participants) });
-                    }
-                })
+				conn.on(config.SIGNALR_SANTA_HUB_GET_PARTICIPANTS, (data) => {
+					if (this._ismounted) {
+						let participants = data.participants.map(name => { return { value: name, display: name } })
+						this.setState({ participantNames: [{ value: '', display: 'Please Select Your Name' }].concat(participants) });
+					}
+				});
                 conn.invoke(config.SIGNALR_SANTA_HUB_GET_PARTICIPANTS);
             })
             .catch(error => console.error(error));
