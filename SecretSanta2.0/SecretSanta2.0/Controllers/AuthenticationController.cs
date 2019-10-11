@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using SecretSanta2._0.Models;
 using SecretSanta2._0.Helpers;
-using SecretSanta2._0.Services.Business;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using SecretSanta2._0.Services.Business.Interfaces;
 
 namespace SecretSanta2._0.Controllers
 {

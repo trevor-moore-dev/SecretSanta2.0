@@ -7,7 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SecretSanta2._0.Services.Business;
+using SecretSanta2._0.Services.Business.Interfaces;
 using SecretSanta2._0.Services.Data;
+using SecretSanta2._0.Services.Data.Interfaces;
 using SecretSanta2._0.Services.SignalR;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -73,15 +75,19 @@ namespace SecretSanta2._0
 
             if (CurrentEnvironment.IsDevelopment() && !RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 			{
-				services.AddSingleton<ISantaDAO>(service => new SantaDAO(Configuration["ConnectionStrings:LocalDB"]));
+				services.AddSingleton<ISantaDAO>(service => new SantaDAO(Configuration["ConnectionStrings:LocalSQLDBConnection"]));
+				services.AddSingleton<ISantaDAO2>(service => new SantaDAO2(
+					Configuration["ConnectionStrings:LocalMongoDBConnection"],
+					Configuration["ConnectionStrings:LocalMongoDBDatabase"],
+					Configuration["ConnectionStrings:LocalMongoDBCollection"]));
 			}
 			else
 			{
-				services.AddSingleton<ISantaDAO>(service => new SantaDAO(Configuration["ConnectionStrings:AzureDB"]));
+				services.AddSingleton<ISantaDAO>(service => new SantaDAO(Configuration["ConnectionStrings:AzureSQLDBConnection"]));
 			}
 
 			services.AddSingleton<ISantaService, SantaService>();
-			services.AddScoped<IAuthenticationService, AuthenticationService>();
+			services.AddSingleton<IAuthenticationService, AuthenticationService>();
 			
 			services.AddSpaStaticFiles(configuration =>
 			{

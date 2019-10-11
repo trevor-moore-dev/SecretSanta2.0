@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SecretSanta2._0.Helpers;
-using SecretSanta2._0.Services.Business;
+using SecretSanta2._0.Services.Business.Interfaces;
 
 namespace SecretSanta2._0.Services.SignalR
 {

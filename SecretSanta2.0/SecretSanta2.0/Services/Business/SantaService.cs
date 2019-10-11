@@ -1,6 +1,7 @@
 ﻿using SecretSanta2._0.Enums;
 using SecretSanta2._0.Models;
-using SecretSanta2._0.Services.Data;
+using SecretSanta2._0.Services.Business.Interfaces;
+using SecretSanta2._0.Services.Data.Interfaces;
 using System;
 using System.Threading.Tasks;
 

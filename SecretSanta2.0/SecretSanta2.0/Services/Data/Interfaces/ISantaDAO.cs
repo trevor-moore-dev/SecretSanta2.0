@@ -1,7 +1,7 @@
 ﻿using SecretSanta2._0.Models;
 using System.Threading.Tasks;
 
-namespace SecretSanta2._0.Services.Data
+namespace SecretSanta2._0.Services.Data.Interfaces
 {
 	public interface ISantaDAO
 	{

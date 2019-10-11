@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SecretSanta2._0.Enums;
 using SecretSanta2._0.Helpers;
 using SecretSanta2._0.Models;
-using SecretSanta2._0.Services.Business;
+using SecretSanta2._0.Services.Business.Interfaces;
 
 namespace SecretSanta2._0.Controllers
 {
