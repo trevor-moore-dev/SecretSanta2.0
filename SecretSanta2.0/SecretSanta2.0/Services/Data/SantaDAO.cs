@@ -1,4 +1,6 @@
-﻿using SecretSanta2._0.Models;
+﻿using SecretSanta2._0.Enums;
+using SecretSanta2._0.Models.DB;
+using SecretSanta2._0.Models.DTO;
 using SecretSanta2._0.Services.Data.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SecretSanta2._0.Services.Data
 {
-	public class SantaDAO : ISantaDAO
+	public class SantaDAO : IDAO<Participant, ParticipantDTO>
 	{
 		private readonly string _conn;
 
@@ -17,10 +19,9 @@ namespace SecretSanta2._0.Services.Data
 			this._conn = conn;
 		}
 
-		public async Task<ParticipantsModel> GetParticipants()
+		public async Task<ParticipantDTO> GetAll()
 		{
-			var model = new ParticipantsModel();
-			var users = new List<string>();
+			var participants = new List<Participant>();
 
 			try
 			{
@@ -36,24 +37,82 @@ namespace SecretSanta2._0.Services.Data
 						{
 							while (await reader.ReadAsync())
 							{
-								users.Add(await reader.GetFieldValueAsync<string>(0));
+								var participant = new Participant();
+								participant.Id = await reader.GetFieldValueAsync<int>(0);
+								participant.Name = await reader.GetFieldValueAsync<string>(1);
+								participant.Taken = await reader.GetFieldValueAsync<int>(2);
+								participant.HaveDrawn = await reader.GetFieldValueAsync<int>(3);
+								participant.WishList = await reader.GetFieldValueAsync<string>(4);
+								participant.WhoTheyDrew = await reader.GetFieldValueAsync<string>(5);
+								participants.Add(participant);
 							}
-							reader.Close();
+							await reader.CloseAsync();
 						}
 					}
-					connection.Close();
+					await connection.CloseAsync();
 				}
-				model.Participants = users;
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
 
-			return model;
+			return new ParticipantDTO
+			(
+				eResponse.Success,
+				participants
+			);
 		}
 
-		public async void AddParticipant(InputModel user)
+		public async Task<ParticipantDTO> Get(string name)
+		{
+			var participant = new Participant();
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(_conn))
+				{
+					await connection.OpenAsync();
+
+					using (SqlCommand command = new SqlCommand(@"dbo.[GetParticipant]", connection))
+					{
+						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = name;
+
+						command.CommandType = CommandType.StoredProcedure;
+
+						using (SqlDataReader reader = await command.ExecuteReaderAsync())
+						{
+							while (await reader.ReadAsync())
+							{
+								participant.Id = await reader.GetFieldValueAsync<int>(0);
+								participant.Name = await reader.GetFieldValueAsync<string>(1);
+								participant.Taken = await reader.GetFieldValueAsync<int>(2);
+								participant.HaveDrawn = await reader.GetFieldValueAsync<int>(3);
+								participant.WishList = await reader.GetFieldValueAsync<string>(4);
+								participant.WhoTheyDrew = await reader.GetFieldValueAsync<string>(5);
+							}
+							await reader.CloseAsync();
+						}
+					}
+					await connection.CloseAsync();
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return new ParticipantDTO
+			(
+				eResponse.Success,
+				new List<Participant>() 
+				{
+					participant
+				}
+			);
+		}
+
+		public async Task<ParticipantDTO> Add(Participant participant)
 		{
 			try
 			{
@@ -63,46 +122,19 @@ namespace SecretSanta2._0.Services.Data
 
 					using (SqlCommand command = new SqlCommand(@"dbo.[AddParticipant]", connection))
 					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = user.Name;
+						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = participant.Name;
 						command.Parameters.Add("@Taken", SqlDbType.Int).Value = 0;
 						command.Parameters.Add("@Havedrawn", SqlDbType.Int).Value = 0;
-						command.Parameters.Add("@Wishlist", SqlDbType.VarChar, -1).Value = user.Wishlist;
+						command.Parameters.Add("@Wishlist", SqlDbType.VarChar, -1).Value = participant.WishList;
+						command.Parameters.Add("@Secret", SqlDbType.VarChar, 50).Value = "";
 
 						command.CommandType = CommandType.StoredProcedure;
 
 						SqlDataReader reader = await command.ExecuteReaderAsync();
 
-						reader.Close();
+						await reader.CloseAsync();
 					}
-					connection.Close();
-				}
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
-		}
-
-		public async Task<int> DoesParticipantExist(string participantName)
-		{
-			var userExists = 0;
-
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[DoesParticipantExist]", connection))
-					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = participantName;
-
-						command.CommandType = CommandType.StoredProcedure;
-
-						userExists = (int) await command.ExecuteScalarAsync();
-
-					}
-					connection.Close();
+					await connection.CloseAsync();
 				}
 			}
 			catch (Exception e)
@@ -110,104 +142,17 @@ namespace SecretSanta2._0.Services.Data
 				throw e;
 			}
 
-			return userExists;
-		}
-
-		public async Task<int> GetNumberOfParticipants()
-		{
-			var numRows = 0;
-
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(_conn))
+			return new ParticipantDTO
+			(
+				eResponse.Success,
+				new List<Participant>()
 				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[GetNumberOfParticipants]", connection))
-					{
-						command.CommandType = CommandType.StoredProcedure;
-
-						numRows = (int)await command.ExecuteScalarAsync();
-
-					}
-					connection.Close();
+					participant
 				}
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
-
-			return numRows;
+			);
 		}
 
-		public async Task<int> HasParticipantDrawn(string participantName)
-		{
-			var hasDrawn = 1;
-
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[HasParticipantDrawn]", connection))
-					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = participantName;
-
-						command.CommandType = CommandType.StoredProcedure;
-
-						hasDrawn = (int) await command.ExecuteScalarAsync();
-					}
-					connection.Close();
-				}
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
-
-			return hasDrawn;
-		}
-
-		public async Task<PresentModel> GetRandomParticipant(string participantName)
-		{
-			var secret = new PresentModel();
-
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[GetRandomParticipant]", connection))
-					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = participantName;
-
-						command.CommandType = CommandType.StoredProcedure;
-
-						using (SqlDataReader reader = await command.ExecuteReaderAsync())
-						{
-							while (await reader.ReadAsync())
-							{
-								secret.Name = await reader.GetFieldValueAsync<string>(0);
-								secret.WishList = await reader.GetFieldValueAsync<string>(1);
-							}
-							reader.Close();
-						}
-					}
-					connection.Close();
-				}
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
-
-			return secret;
-		}
-
-		public async void SetTakenParticipant(string takenParticipantName)
+		public async Task<ParticipantDTO> Update(string name, Participant participant)
 		{
 			try
 			{
@@ -215,26 +160,38 @@ namespace SecretSanta2._0.Services.Data
 				{
 					await connection.OpenAsync();
 
-					using (SqlCommand command = new SqlCommand(@"dbo.[SetTakenParticipant]", connection))
+					using (SqlCommand command = new SqlCommand(@"dbo.[UpdateParticipant]", connection))
 					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = takenParticipantName;
+						command.Parameters.Add("@Secret", SqlDbType.VarChar, 50).Value = participant.WhoTheyDrew;
+						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = name;
+						command.Parameters.Add("@Taken", SqlDbType.Int).Value = participant.Taken;
+						command.Parameters.Add("@Havedrawn", SqlDbType.Int).Value = participant.HaveDrawn;
 
 						command.CommandType = CommandType.StoredProcedure;
 
 						SqlDataReader reader = await command.ExecuteReaderAsync();
 
-						reader.Close();
+						await reader.CloseAsync();
 					}
-					connection.Close();
+					await connection.CloseAsync();	
 				}
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
+
+			return new ParticipantDTO
+			(
+				eResponse.Success,
+				new List<Participant>()
+				{
+					participant
+				}
+			);
 		}
 
-		public async void SetParticipantDrawFlag(string participantName)
+		public async Task<ParticipantDTO> Delete(string name)
 		{
 			try
 			{
@@ -242,51 +199,29 @@ namespace SecretSanta2._0.Services.Data
 				{
 					await connection.OpenAsync();
 
-					using (SqlCommand command = new SqlCommand(@"dbo.[SetParticipantDrawFlag]", connection))
+					using (SqlCommand command = new SqlCommand(@"dbo.[DeleteParticipant]", connection))
 					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = participantName;
+						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = name;
 
 						command.CommandType = CommandType.StoredProcedure;
 
 						SqlDataReader reader = await command.ExecuteReaderAsync();
 
-						reader.Close();
+						await reader.CloseAsync();
 					}
-					connection.Close();
+					await connection.CloseAsync();
 				}
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
-		}
 
-		public async void SaveDrawnParticipant(string takenParticipantName, string participantName)
-		{
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[SaveDrawnParticipant]", connection))
-					{
-						command.Parameters.Add("@Secret", SqlDbType.VarChar, 50).Value = takenParticipantName;
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = participantName;
-
-						command.CommandType = CommandType.StoredProcedure;
-
-						SqlDataReader reader = await command.ExecuteReaderAsync();
-
-						reader.Close();
-					}
-					connection.Close();
-				}
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
+			return new ParticipantDTO
+			(
+				eResponse.Success,
+				new List<Participant>()
+			);
 		}
 	}
 }

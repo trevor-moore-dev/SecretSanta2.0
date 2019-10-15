@@ -6,11 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using SecretSanta2._0.Models.DB;
+using SecretSanta2._0.Models.DTO;
 using SecretSanta2._0.Services.Business;
 using SecretSanta2._0.Services.Business.Interfaces;
 using SecretSanta2._0.Services.Data;
 using SecretSanta2._0.Services.Data.Interfaces;
-using SecretSanta2._0.Services.SignalR;
+using SecretSanta2._0.Services.Hubs;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -75,18 +77,23 @@ namespace SecretSanta2._0
 
             if (CurrentEnvironment.IsDevelopment() && !RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 			{
-				services.AddSingleton<ISantaDAO>(service => new SantaDAO(Configuration["ConnectionStrings:LocalSQLDBConnection"]));
-				services.AddSingleton<ISantaDAO2>(service => new SantaDAO2(
+				services.AddSingleton<IDAO<Participant, ParticipantDTO>>(service => new SantaDAO(Configuration["ConnectionStrings:LocalSQLDBConnection"]));
+				services.AddSingleton<IDAO<Participant2, ParticipantDTO2>>(service => new SantaDAO2(
 					Configuration["ConnectionStrings:LocalMongoDBConnection"],
 					Configuration["ConnectionStrings:LocalMongoDBDatabase"],
 					Configuration["ConnectionStrings:LocalMongoDBCollection"]));
 			}
 			else
 			{
-				services.AddSingleton<ISantaDAO>(service => new SantaDAO(Configuration["ConnectionStrings:AzureSQLDBConnection"]));
+				services.AddSingleton<IDAO<Participant, ParticipantDTO>>(service => new SantaDAO(Configuration["ConnectionStrings:AzureSQLDBConnection"]));
+				//services.AddSingleton<IDAO<Participant2, ParticipantDTO2>>(service => new SantaDAO2(
+					//Configuration["ConnectionStrings:AzureMongoDBConnection"],
+					//Configuration["ConnectionStrings:AzureMongoDBDatabase"],
+					//Configuration["ConnectionStrings:AzureMongoDBCollection"]));
 			}
 
 			services.AddSingleton<ISantaService, SantaService>();
+			services.AddSingleton<ISantaService2, SantaService2>();
 			services.AddSingleton<IAuthenticationService, AuthenticationService>();
 			
 			services.AddSpaStaticFiles(configuration =>

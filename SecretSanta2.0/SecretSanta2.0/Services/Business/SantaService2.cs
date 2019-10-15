@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace SecretSanta2._0.Services.Business
 {
-	public class SantaService : ISantaService
+	public class SantaService2 : ISantaService2
 	{
-		private readonly IDAO<Participant, ParticipantDTO> _santaDAO;
+		private readonly IDAO<Participant2, ParticipantDTO2> _santaDAO;
 
-		public SantaService(IDAO<Participant, ParticipantDTO> santaDAO)
+		public SantaService2(IDAO<Participant2, ParticipantDTO2> santaDAO)
 		{
 			this._santaDAO = santaDAO;
 		}
@@ -57,7 +57,7 @@ namespace SecretSanta2._0.Services.Business
 					};
 				}
 
-				if (participant.HaveDrawn.Equals(1))
+				if (participant.HaveDrawn)
 				{
 					return new PresentModel()
 					{
@@ -67,7 +67,7 @@ namespace SecretSanta2._0.Services.Business
 					};
 				}
 
-				var availableParticipants = participants.Data.Where(x => x.Taken.Equals(0) && !x.Name.Equals(participantName));
+				var availableParticipants = participants.Data.Where(x => x.Taken.Equals(false) && !x.Name.Equals(participantName));
 
 				if (availableParticipants?.Count() > 0)
 				{
@@ -76,25 +76,25 @@ namespace SecretSanta2._0.Services.Business
 					if (secretSanta != null)
 					{
 						await _santaDAO.Update(
-							secretSanta.Name,
-							new Participant()
+							secretSanta.Id, 
+							new Participant2()
 							{
 								Id = secretSanta.Id,
 								Name = secretSanta.Name,
-								Taken = 1,
+								Taken = true,
 								HaveDrawn = secretSanta.HaveDrawn,
 								WishList = secretSanta.WishList,
 								WhoTheyDrew = secretSanta.WhoTheyDrew
 
 							});
 						await _santaDAO.Update(
-							participant.Name,
-							new Participant()
+							participant.Id,
+							new Participant2()
 							{
 								Id = participant.Id,
 								Name = participant.Name,
 								Taken = participant.Taken,
-								HaveDrawn = 1,
+								HaveDrawn = true,
 								WishList = participant.WishList,
 								WhoTheyDrew = secretSanta.Name
 
@@ -148,12 +148,13 @@ namespace SecretSanta2._0.Services.Business
 				var participants = await _santaDAO.GetAll();
 				if (!participants.Data.Any(x => x.Name.Equals(user.Name)))
 				{
-					await _santaDAO.Add(new Participant()
+					await _santaDAO.Add(new Participant2()
 					{
 						Name = user.Name,
-						Taken = 0,
-						HaveDrawn = 0,
-						WishList = user.Wishlist
+						Taken = false,
+						HaveDrawn = false,
+						WishList = user.Wishlist,
+						WhoTheyDrew = string.Empty
 					});
 					return eResponse.Success;
 				}

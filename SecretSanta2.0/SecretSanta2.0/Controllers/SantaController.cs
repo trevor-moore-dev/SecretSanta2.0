@@ -14,9 +14,11 @@ namespace SecretSanta2._0.Controllers
     [Route("api/[controller]")]
     public class SantaController : ControllerBase
     {
-		private readonly ISantaService _santaService;
+		//private readonly ISantaService _santaService;
+		private readonly ISantaService2 _santaService;
 
-		public SantaController(ISantaService santaService)
+		//public SantaController(ISantaService santaService)
+		public SantaController(ISantaService2 santaService)
 		{
 			this._santaService = santaService;
 		}

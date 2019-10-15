@@ -4,14 +4,16 @@ using Microsoft.AspNetCore.SignalR;
 using SecretSanta2._0.Helpers;
 using SecretSanta2._0.Services.Business.Interfaces;
 
-namespace SecretSanta2._0.Services.SignalR
+namespace SecretSanta2._0.Services.Hubs
 {
     public class SantaHub : Hub
     {
-        private readonly ISantaService _santaService;
+		//private readonly ISantaService _santaService;
+		private readonly ISantaService2 _santaService;
 
-        public SantaHub(ISantaService santaService)
-        {
+		//public SantaHub(ISantaService santaService)
+		public SantaHub(ISantaService2 santaService)
+		{
             this._santaService = santaService;
         }
 
