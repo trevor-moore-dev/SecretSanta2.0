@@ -86,10 +86,10 @@ namespace SecretSanta2._0
 			else
 			{
 				services.AddSingleton<IDAO<Participant, ParticipantDTO>>(service => new SantaDAO(Configuration["ConnectionStrings:AzureSQLDBConnection"]));
-				//services.AddSingleton<IDAO<Participant2, ParticipantDTO2>>(service => new SantaDAO2(
-					//Configuration["ConnectionStrings:AzureMongoDBConnection"],
-					//Configuration["ConnectionStrings:AzureMongoDBDatabase"],
-					//Configuration["ConnectionStrings:AzureMongoDBCollection"]));
+				services.AddSingleton<IDAO<Participant2, ParticipantDTO2>>(service => new SantaDAO2(
+					Configuration["ConnectionStrings:HerokuMongoDBConnection"],
+					Configuration["ConnectionStrings:HerokuMongoDBDatabase"],
+					Configuration["ConnectionStrings:HerokuMongoDBCollection"]));
 			}
 
 			services.AddSingleton<ISantaService, SantaService>();
