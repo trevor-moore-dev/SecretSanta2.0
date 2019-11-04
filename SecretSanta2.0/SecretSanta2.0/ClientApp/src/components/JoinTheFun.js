@@ -25,14 +25,14 @@ class JoinTheFun extends Component {
 	checkForm(event) {
 		event.preventDefault();
 
-		if (UserIsValid(this.props.auth)) {
+		//if (UserIsValid(this.props.auth)) {
 			event.target.myButton.disabled = true;
 			event.target.myButton.value = "Please wait...";
 			this.postForm(event);
-		}
-		else {
-			alert('There was an issue when you logged in. Please logout and try again.');
-		}
+		//}
+		//else {
+			//alert('There was an issue when you logged in. Please logout and try again.');
+		//}
 	}
 
 	postForm(event) {
@@ -63,8 +63,8 @@ class JoinTheFun extends Component {
 		fetch(config.JOIN_THE_FUN_URL, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': TryGetToken(this.props.auth.user)
+				'Content-Type': 'application/json'//,
+				//'Authorization': TryGetToken(this.props.auth.user)
 			},
 			body: JSON.stringify({ Name: this.state.inputName, Wishlist: this.state.inputWishlist })
 		})
@@ -87,7 +87,8 @@ class JoinTheFun extends Component {
 			console.error(error);
 			document.getElementById("myButton").disabled = false;
 			document.getElementById("myButton").value = 'Draw Name';
-			alert('There was an issue when you logged in. Please logout and try again.');
+			//alert('There was an issue when you logged in. Please logout and try again.');
+			alert('An error occurred. Please try again.');
 		});
 	}
 
@@ -95,8 +96,8 @@ class JoinTheFun extends Component {
 		const date = new Date();
 		return (
 			<div>
-				{UserIsValid(this.props.auth) ? (
-					<div>
+				{/**UserIsValid(this.props.auth) ? (
+					<div>**/}
 						{this.state.status === 0 || this.state.status === 2 ? (
 							<form onSubmit={this.checkForm}>
 								<div className="form-horizontal">
@@ -104,7 +105,7 @@ class JoinTheFun extends Component {
 
 									<br />
 
-									{Cookies.get('User-Email') == null ? (<p>Welcome!</p>) : (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>)}
+									{/**Cookies.get('User-Email') == null ? (<p>Welcome!</p>) : (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>)**/}
 									<p>Please enter your name and wishlist to join in on the fun this year!</p>
 
 									<hr />
@@ -163,7 +164,7 @@ class JoinTheFun extends Component {
 									<p>You can now draw a name by visiting <Link to="/">this link</Link>.</p>
 								</div>
 							)}
-					</div>
+				{/**</div>
 				) : (
 						<Redirect
 							to={{
@@ -174,7 +175,7 @@ class JoinTheFun extends Component {
 								}
 							}}
 						/>
-					)}
+					)}**/}
 			</div>
 		);
     }

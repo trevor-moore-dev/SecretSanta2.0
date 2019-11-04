@@ -8,11 +8,9 @@ namespace SecretSanta2._0.Services.Hubs
 {
     public class SantaHub : Hub
     {
-		//private readonly ISantaService _santaService;
-		private readonly ISantaService2 _santaService;
+		private readonly ISantaService _santaService;
 
-		//public SantaHub(ISantaService santaService)
-		public SantaHub(ISantaService2 santaService)
+		public SantaHub(ISantaService santaService)
 		{
             this._santaService = santaService;
         }

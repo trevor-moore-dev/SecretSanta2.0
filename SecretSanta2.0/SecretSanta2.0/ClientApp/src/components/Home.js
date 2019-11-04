@@ -31,14 +31,14 @@ class Home extends Component {
 	checkForm(event) {
 		event.preventDefault();
 
-		if (UserIsValid(this.props.auth)) {
+		//if (UserIsValid(this.props.auth)) {
 			event.target.myButton.disabled = true;
 			event.target.myButton.value = 'Please wait...';
 			this.postForm(event);
-		}
-		else {
-			this.setState({ status: 3 });
-		}
+		//}
+		//else {
+			//this.setState({ status: 3 });
+		//}
 	}
 
 	postForm(event) {
@@ -51,10 +51,10 @@ class Home extends Component {
 		}
 
 		fetch(config.GET_SECRET_SANTA_URL + '?name=' + inputName, {
-			method: 'POST',
-			headers: {
-				'Authorization': TryGetToken(this.props.auth.user)
-			},
+			method: 'POST'//,
+			//headers: {
+				//'Authorization': TryGetToken(this.props.auth.user)
+			//},
 		})
 		.then((response) => {
 			return response.json();
@@ -76,7 +76,8 @@ class Home extends Component {
 			console.error(error);
 			document.getElementById("myButton").disabled = false;
 			document.getElementById("myButton").value = 'Draw Name';
-			alert('There was an issue when you logged in. Please logout and try again.');
+			//alert('There was an issue when you logged in. Please logout and try again.');
+			alert('An error occurred. Please try again.');
 		});
 	}
 
@@ -86,11 +87,11 @@ class Home extends Component {
 				{this.state.status === 0 ? (
 					<form onSubmit={this.checkForm}>
 						<div className="form-horizontal">
-							<h2>The 2019 Christmas Season Secret Santa!</h2>
+							<h2>Welcome to the 2019 Christmas Secret Santa!</h2>
 
 							<br />
 
-							{UserIsValid(this.props.auth) && Cookies.get('User-Email') != null ? (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>) : ('')}
+							{/**UserIsValid(this.props.auth) && Cookies.get('User-Email') != null ? (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>) : ('')**/}
 							<p>Please select your name from the dropdown so that you don't accidentally draw yourself, and then click on <strong>Draw Name</strong> to randomly pick someone from your friend group.</p>
 							<p>If you don't see your name in the dropdown, please click <strong>Join the Fun</strong> in the header, or just click <Link to="/join-the-fun">this link</Link>.</p>
 
@@ -177,7 +178,7 @@ class Home extends Component {
 						</center>
 					</div>
 				) : ('')}
-				{this.state.status === 3 ? (
+				{/**this.state.status === 3 ? (
 					<Redirect
 						to={{
 							pathname: '/login',
@@ -187,7 +188,7 @@ class Home extends Component {
 							}
 						}}
 					/>
-				) : ('')}
+				) : ('')**/}
 			</div>
 		);
 	}

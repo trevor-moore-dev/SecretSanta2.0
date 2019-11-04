@@ -13,7 +13,6 @@ using SecretSanta2._0.Services.Business.Interfaces;
 using SecretSanta2._0.Services.Data;
 using SecretSanta2._0.Services.Data.Interfaces;
 using SecretSanta2._0.Services.Hubs;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SecretSanta2._0
@@ -75,25 +74,22 @@ namespace SecretSanta2._0
 
             services.AddSignalR();
 
-            if (CurrentEnvironment.IsDevelopment() && !RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            if (CurrentEnvironment.IsDevelopment())
 			{
-				services.AddSingleton<IDAO<Participant, ParticipantDTO>>(service => new SantaDAO(Configuration["ConnectionStrings:LocalSQLDBConnection"]));
-				services.AddSingleton<IDAO<Participant2, ParticipantDTO2>>(service => new SantaDAO2(
+				services.AddSingleton<IDAO<Participant, ParticipantDTO>>(service => new SantaDAO(
 					Configuration["ConnectionStrings:LocalMongoDBConnection"],
 					Configuration["ConnectionStrings:LocalMongoDBDatabase"],
 					Configuration["ConnectionStrings:LocalMongoDBCollection"]));
 			}
 			else
 			{
-				services.AddSingleton<IDAO<Participant, ParticipantDTO>>(service => new SantaDAO(Configuration["ConnectionStrings:AzureSQLDBConnection"]));
-				services.AddSingleton<IDAO<Participant2, ParticipantDTO2>>(service => new SantaDAO2(
+				services.AddSingleton<IDAO<Participant, ParticipantDTO>>(service => new SantaDAO(
 					Configuration["ConnectionStrings:HerokuMongoDBConnection"],
 					Configuration["ConnectionStrings:HerokuMongoDBDatabase"],
 					Configuration["ConnectionStrings:HerokuMongoDBCollection"]));
 			}
 
 			services.AddSingleton<ISantaService, SantaService>();
-			services.AddSingleton<ISantaService2, SantaService2>();
 			services.AddSingleton<IAuthenticationService, AuthenticationService>();
 			
 			services.AddSpaStaticFiles(configuration =>

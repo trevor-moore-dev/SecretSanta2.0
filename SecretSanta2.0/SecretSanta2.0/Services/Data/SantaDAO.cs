@@ -1,227 +1,128 @@
-﻿using SecretSanta2._0.Enums;
+﻿using MongoDB.Driver;
+using SecretSanta2._0.Enums;
+using SecretSanta2._0.Helpers;
 using SecretSanta2._0.Models.DB;
 using SecretSanta2._0.Models.DTO;
 using SecretSanta2._0.Services.Data.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace SecretSanta2._0.Services.Data
 {
 	public class SantaDAO : IDAO<Participant, ParticipantDTO>
 	{
-		private readonly string _conn;
+		private readonly IMongoCollection<Participant> _participants;
 
-		public SantaDAO(string conn)
+		public SantaDAO(string connectionString, string databaseName, string collectionName)
 		{
-			this._conn = conn;
+			try
+			{
+				var client = new MongoClient(connectionString);
+				var database = client.GetDatabase(databaseName);
+				_participants = database.GetCollection<Participant>(collectionName);
+			}
+			catch (Exception e)
+			{
+				LoggerHelper.Log(e);
+				throw e;
+			}
 		}
 
 		public async Task<ParticipantDTO> GetAll()
 		{
-			var participants = new List<Participant>();
-
 			try
-			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[GetParticipants]", connection))
-					{
-						command.CommandType = CommandType.StoredProcedure;
-
-						using (SqlDataReader reader = await command.ExecuteReaderAsync())
-						{
-							while (await reader.ReadAsync())
-							{
-								var participant = new Participant();
-								participant.Id = await reader.GetFieldValueAsync<int>(0);
-								participant.Name = await reader.GetFieldValueAsync<string>(1);
-								participant.Taken = await reader.GetFieldValueAsync<int>(2);
-								participant.HaveDrawn = await reader.GetFieldValueAsync<int>(3);
-								participant.WishList = await reader.GetFieldValueAsync<string>(4);
-								participant.WhoTheyDrew = await reader.GetFieldValueAsync<string>(5);
-								participants.Add(participant);
-							}
-							await reader.CloseAsync();
-						}
-					}
-					await connection.CloseAsync();
-				}
+			{ 
+				var participants = await _participants.FindAsync(x => true);
+				var participantsList = await participants.ToListAsync();
+				return new ParticipantDTO
+				(
+					eResponse.Success,
+					participantsList
+				); 
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
-
-			return new ParticipantDTO
-			(
-				eResponse.Success,
-				participants
-			);
 		}
 
-		public async Task<ParticipantDTO> Get(string name)
+		public async Task<ParticipantDTO> Get(string index)
 		{
-			var participant = new Participant();
-
 			try
 			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[GetParticipant]", connection))
+				var participants = await _participants.FindAsync(x => x.Id.Equals(index));
+				var participant = await participants.FirstOrDefaultAsync();
+				return new ParticipantDTO
+				(
+					eResponse.Success,
+					new List<Participant>()
 					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = name;
-
-						command.CommandType = CommandType.StoredProcedure;
-
-						using (SqlDataReader reader = await command.ExecuteReaderAsync())
-						{
-							while (await reader.ReadAsync())
-							{
-								participant.Id = await reader.GetFieldValueAsync<int>(0);
-								participant.Name = await reader.GetFieldValueAsync<string>(1);
-								participant.Taken = await reader.GetFieldValueAsync<int>(2);
-								participant.HaveDrawn = await reader.GetFieldValueAsync<int>(3);
-								participant.WishList = await reader.GetFieldValueAsync<string>(4);
-								participant.WhoTheyDrew = await reader.GetFieldValueAsync<string>(5);
-							}
-							await reader.CloseAsync();
-						}
+						participant
 					}
-					await connection.CloseAsync();
-				}
+				);
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
-
-			return new ParticipantDTO
-			(
-				eResponse.Success,
-				new List<Participant>() 
-				{
-					participant
-				}
-			);
 		}
 
 		public async Task<ParticipantDTO> Add(Participant participant)
 		{
 			try
-			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[AddParticipant]", connection))
+			{ 
+				await _participants.InsertOneAsync(participant);
+				return new ParticipantDTO
+				(
+					eResponse.Success,
+					new List<Participant>()
 					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = participant.Name;
-						command.Parameters.Add("@Taken", SqlDbType.Int).Value = 0;
-						command.Parameters.Add("@Havedrawn", SqlDbType.Int).Value = 0;
-						command.Parameters.Add("@Wishlist", SqlDbType.VarChar, -1).Value = participant.WishList;
-						command.Parameters.Add("@Secret", SqlDbType.VarChar, 50).Value = "";
-
-						command.CommandType = CommandType.StoredProcedure;
-
-						SqlDataReader reader = await command.ExecuteReaderAsync();
-
-						await reader.CloseAsync();
+						participant
 					}
-					await connection.CloseAsync();
-				}
+				);
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
-
-			return new ParticipantDTO
-			(
-				eResponse.Success,
-				new List<Participant>()
-				{
-					participant
-				}
-			);
 		}
 
-		public async Task<ParticipantDTO> Update(string name, Participant participant)
+		public async Task<ParticipantDTO> Update(string index, Participant participant)
 		{
 			try
 			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[UpdateParticipant]", connection))
+				await _participants.ReplaceOneAsync(x => x.Id.Equals(index), participant);
+				return new ParticipantDTO
+				(
+					eResponse.Success,
+					new List<Participant>()
 					{
-						command.Parameters.Add("@Secret", SqlDbType.VarChar, 50).Value = participant.WhoTheyDrew;
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = name;
-						command.Parameters.Add("@Taken", SqlDbType.Int).Value = participant.Taken;
-						command.Parameters.Add("@Havedrawn", SqlDbType.Int).Value = participant.HaveDrawn;
-
-						command.CommandType = CommandType.StoredProcedure;
-
-						SqlDataReader reader = await command.ExecuteReaderAsync();
-
-						await reader.CloseAsync();
+						participant
 					}
-					await connection.CloseAsync();	
-				}
+				);
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
-
-			return new ParticipantDTO
-			(
-				eResponse.Success,
-				new List<Participant>()
-				{
-					participant
-				}
-			);
 		}
 
-		public async Task<ParticipantDTO> Delete(string name)
+		public async Task<ParticipantDTO> Delete(string index)
 		{
 			try
 			{
-				using (SqlConnection connection = new SqlConnection(_conn))
-				{
-					await connection.OpenAsync();
-
-					using (SqlCommand command = new SqlCommand(@"dbo.[DeleteParticipant]", connection))
-					{
-						command.Parameters.Add("@Name", SqlDbType.VarChar, 50).Value = name;
-
-						command.CommandType = CommandType.StoredProcedure;
-
-						SqlDataReader reader = await command.ExecuteReaderAsync();
-
-						await reader.CloseAsync();
-					}
-					await connection.CloseAsync();
-				}
+				await _participants.DeleteOneAsync(x => x.Id.Equals(index));
+				return new ParticipantDTO
+				(
+					eResponse.Success,
+					new List<Participant>()
+				);
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
-
-			return new ParticipantDTO
-			(
-				eResponse.Success,
-				new List<Participant>()
-			);
 		}
 	}
 }

@@ -25,7 +25,7 @@ class NavigationBar extends Component {
 	}
 
 	render() {
-		let userIsValid = UserIsValid(this.props.auth);
+		//let userIsValid = UserIsValid(this.props.auth);
 		return (
 			<header>
 				<Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
@@ -41,9 +41,9 @@ class NavigationBar extends Component {
 								<NavItem>
 									<NavLink exact className="text-dark nav-link" to='/join-the-fun'>Join the Fun</NavLink>
 								</NavItem>
-								<NavItem>
+								{/**<NavItem>
 									<NavLink exact className="text-dark nav-link" to={userIsValid ? '/logout' : '/login'}>{userIsValid ? 'Logout' : 'Login'}</NavLink>
-								</NavItem>
+								</NavItem>**/}
 							</ul>
 						</Collapse>
 					</Container>

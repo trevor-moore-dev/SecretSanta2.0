@@ -27,8 +27,8 @@ class App extends Component {
 					<Switch>
 						<Route exact path='/' component={(props) => (<Home {...props} />)} />
 						<Route path='/join-the-fun' component={(props) => (<JoinTheFun {...props} />)} />
-						<Route path='/login' component={(props) => (<Login {...props} />)} />
-						<Route path='/logout' component={(props) => (<Logout {...props} />)} />
+						{/**<Route path='/login' component={(props) => (<Login {...props} />)} />
+						<Route path='/logout' component={(props) => (<Logout {...props} />)} />**/}
 						<Route component={NotFound} />
 					</Switch>
 				</main>

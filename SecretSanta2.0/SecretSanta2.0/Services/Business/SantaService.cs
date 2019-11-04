@@ -57,7 +57,7 @@ namespace SecretSanta2._0.Services.Business
 					};
 				}
 
-				if (participant.HaveDrawn.Equals(1))
+				if (participant.HaveDrawn)
 				{
 					return new PresentModel()
 					{
@@ -67,7 +67,7 @@ namespace SecretSanta2._0.Services.Business
 					};
 				}
 
-				var availableParticipants = participants.Data.Where(x => x.Taken.Equals(0) && !x.Name.Equals(participantName));
+				var availableParticipants = participants.Data.Where(x => x.Taken.Equals(false) && !x.Name.Equals(participantName));
 
 				if (availableParticipants?.Count() > 0)
 				{
@@ -76,25 +76,25 @@ namespace SecretSanta2._0.Services.Business
 					if (secretSanta != null)
 					{
 						await _santaDAO.Update(
-							secretSanta.Name,
+							secretSanta.Id, 
 							new Participant()
 							{
 								Id = secretSanta.Id,
 								Name = secretSanta.Name,
-								Taken = 1,
+								Taken = true,
 								HaveDrawn = secretSanta.HaveDrawn,
 								WishList = secretSanta.WishList,
 								WhoTheyDrew = secretSanta.WhoTheyDrew
 
 							});
 						await _santaDAO.Update(
-							participant.Name,
+							participant.Id,
 							new Participant()
 							{
 								Id = participant.Id,
 								Name = participant.Name,
 								Taken = participant.Taken,
-								HaveDrawn = 1,
+								HaveDrawn = true,
 								WishList = participant.WishList,
 								WhoTheyDrew = secretSanta.Name
 
@@ -151,9 +151,10 @@ namespace SecretSanta2._0.Services.Business
 					await _santaDAO.Add(new Participant()
 					{
 						Name = user.Name,
-						Taken = 0,
-						HaveDrawn = 0,
-						WishList = user.Wishlist
+						Taken = false,
+						HaveDrawn = false,
+						WishList = user.Wishlist,
+						WhoTheyDrew = string.Empty
 					});
 					return eResponse.Success;
 				}

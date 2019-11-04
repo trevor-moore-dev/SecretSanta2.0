@@ -14,11 +14,9 @@ namespace SecretSanta2._0.Controllers
     [Route("api/[controller]")]
     public class SantaController : ControllerBase
     {
-		//private readonly ISantaService _santaService;
-		private readonly ISantaService2 _santaService;
+		private readonly ISantaService _santaService;
 
-		//public SantaController(ISantaService santaService)
-		public SantaController(ISantaService2 santaService)
+		public SantaController(ISantaService santaService)
 		{
 			this._santaService = santaService;
 		}
@@ -37,7 +35,7 @@ namespace SecretSanta2._0.Controllers
 			}
 		}
 
-		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+		//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[HttpPost("[action]")]
 		public async Task<PresentModel> GetSecretSanta(string name)
 		{
@@ -52,7 +50,7 @@ namespace SecretSanta2._0.Controllers
 			}
 		}
 
-		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+		//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[HttpPost("[action]")]
 		public async Task<eResponse> JoinTheFun([FromBody] InputModel user)
 		{
