@@ -13,9 +13,7 @@ class JoinTheFun extends Component {
 		super(props);
 		this.state = {
 			inputName: '',
-			inputWishlist: '',
 			nameValidationError: '',
-            wishlistValidationError: '',
 			status: 0,
 		};
 		this.checkForm = this.checkForm.bind(this);
@@ -37,7 +35,6 @@ class JoinTheFun extends Component {
 
 	postForm(event) {
 		var nameValidation = '';
-		var wishlistValidation = '';
 		var validate = false;
 
 		if (this.state.inputName === '') {
@@ -46,16 +43,9 @@ class JoinTheFun extends Component {
 			validate = true;
 		}
 
-		if (this.state.inputWishlist === '') {
-			event.target.myButton.disabled = false;
-			wishlistValidation = 'Please enter your wishlist.';
-			validate = true;
-		}
-
 		if (validate) {
 			this.setState({
-				nameValidationError: nameValidation,
-				wishlistValidationError: wishlistValidation
+				nameValidationError: nameValidation
 			});
 			return false;
 		}
@@ -66,7 +56,7 @@ class JoinTheFun extends Component {
 				'Content-Type': 'application/json'//,
 				//'Authorization': TryGetToken(this.props.auth.user)
 			},
-			body: JSON.stringify({ Name: this.state.inputName, Wishlist: this.state.inputWishlist })
+			body: JSON.stringify({ Name: this.state.inputName })
 		})
 		.then((response) => {
 			return response.json();
@@ -106,7 +96,7 @@ class JoinTheFun extends Component {
 									<br />
 
 									{/**Cookies.get('User-Email') == null ? (<p>Welcome!</p>) : (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>)**/}
-									<p>Please enter your name and wishlist to join in on the fun this year!</p>
+									<p>Please enter your name to join in on the fun this year!</p>
 
 									<hr />
 
@@ -124,26 +114,6 @@ class JoinTheFun extends Component {
 												onChange={(e) => this.setState({ inputName: e.target.value.slice(0, 50) })} />
 											<div style={{ color: 'red', marginTop: '5px' }}>
 												{this.state.nameValidationError}
-											</div>
-										</div>
-									</div>
-
-									<div className="form-group">
-										<label className="control-label col-md-2 christmas-label">Your Christmas Wishlist:</label>
-										<div className="col-md-10">
-											<textarea
-												className="form-control user-input"
-												cols="20"
-												id="WishList"
-												name="WishList"
-												placeholder="I want a great big puppy!"
-												rows="4"
-												type="text"
-												value={this.state.inputWishlist}
-												maxLength="500"
-												onChange={(e) => this.setState({ inputWishlist: e.target.value.slice(0, 500) })} />
-											<div style={{ color: 'red', marginTop: '5px' }}>
-												{this.state.wishlistValidationError}
 											</div>
 										</div>
 									</div>

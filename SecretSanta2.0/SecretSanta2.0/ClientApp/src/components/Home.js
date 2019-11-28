@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import config from '../config.json';
 import Cookies from 'js-cookie';
+import Emoji from 'react-emoji-render';
 
 class Home extends Component {
 	static displayName = Home.name;
@@ -13,7 +14,7 @@ class Home extends Component {
 		super(props);
 		this.state = {
             participantNames: [],
-			secretSanta: [ '', '', '', '', '', '', ],
+			secretSanta: [ '', '', '', '' ],
 			selectedName: '',
 			validationError: '',
 			status: 0,
@@ -64,10 +65,8 @@ class Home extends Component {
 				secretSanta: [
 					data.title,
 					data.pageDescription,
-					data.headerOne,
-					data.name,
-					data.headerTwo,
-					data.wishList,
+					data.header,
+					data.name
 				],
 				status: data.response
 			});
@@ -129,49 +128,7 @@ class Home extends Component {
 						<div className="form-horizontal">
 						<h2>{this.state.secretSanta[0]}</h2>
 						<p>{this.state.secretSanta[1]}</p>
-
-						<table className="table">
-							<tbody>
-								{this.state.secretSanta[2] ?
-									<tr>
-										<td>
-											<b>{this.state.secretSanta[2]}</b>
-										</td>
-									</tr> :
-									<tr>
-
-									</tr>
-								}
-								
-								{this.state.secretSanta[3] ?
-									<tr>
-										<td>
-											{this.state.secretSanta[3]}
-										</td>
-									</tr> :
-									<tr>
-
-									</tr>
-								}
-
-								{this.state.secretSanta[4] ?
-									<tr>
-										<td>
-											<b>{this.state.secretSanta[4]}</b>
-										</td>
-									</tr> :
-									<tr>
-
-									</tr>
-								}
-
-								<tr>
-									<td>
-										{this.state.secretSanta[5]}
-									</td>
-								</tr>
-							</tbody>
-						</table>
+						<p><b>{this.state.secretSanta[2] ? this.state.secretSanta[2] : ''}</b> {this.state.secretSanta[3] ? [<Emoji text=":christmas_tree:" />, this.state.secretSanta[3], <Emoji text=":star2:" />] : ''}</p>
 
 						<center>
 							<button className="btn btn-primary hidden-print christmas-green" onClick={this.printPage}><span className="glyphicon glyphicon-print" aria-hidden="true"></span> Print</button>

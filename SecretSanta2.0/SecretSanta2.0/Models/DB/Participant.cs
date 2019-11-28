@@ -11,7 +11,6 @@ namespace SecretSanta2._0.Models.DB
 		public string Name { get; set; }
 		public bool Taken { get; set; }
 		public bool HaveDrawn { get; set; }
-		public string WishList { get; set; }
 		public string WhoTheyDrew { get; set; }
 	}
 }

@@ -83,7 +83,6 @@ namespace SecretSanta2._0.Services.Business
 								Name = secretSanta.Name,
 								Taken = true,
 								HaveDrawn = secretSanta.HaveDrawn,
-								WishList = secretSanta.WishList,
 								WhoTheyDrew = secretSanta.WhoTheyDrew
 
 							});
@@ -95,18 +94,15 @@ namespace SecretSanta2._0.Services.Business
 								Name = participant.Name,
 								Taken = participant.Taken,
 								HaveDrawn = true,
-								WishList = participant.WishList,
 								WhoTheyDrew = secretSanta.Name
 
 							});
 						return new PresentModel()
 						{
 							Name = secretSanta.Name,
-							WishList = secretSanta.WishList,
 							Title = "Here is Your Secret Santa:",
-							PageDescription = "Screenshot or print this page so that you don't forget! Have fun playing Santa and Merry Christmas!!!",
-							HeaderOne = "You Got:",
-							HeaderTwo = "Their Christmas Wishlist:",
+							PageDescription = "Screenshot or print this page so that you don't forget! Find this person a gift before the 25th, have fun, and Merry Christmas!!!",
+							Header = "You Drew:",
 							Response = eResponse.Success
 						};
 					}
@@ -153,7 +149,6 @@ namespace SecretSanta2._0.Services.Business
 						Name = user.Name,
 						Taken = false,
 						HaveDrawn = false,
-						WishList = user.Wishlist,
 						WhoTheyDrew = string.Empty
 					});
 					return eResponse.Success;
