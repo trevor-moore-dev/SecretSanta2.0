@@ -6,10 +6,13 @@ import { connect } from 'react-redux';
 import config from '../config.json';
 import Cookies from 'js-cookie';
 import Emoji from 'react-emoji-render';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 class Home extends Component {
 	static displayName = Home.name;
-	
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -81,55 +84,92 @@ class Home extends Component {
 	}
 
 	render() {
+		const classes = makeStyles(theme => ({
+			root: {
+				flexGrow: 1
+			}
+		}));
 		return (
-			<div>
+			<div className={classes.root}>
 				{this.state.status === 0 ? (
-					<form onSubmit={this.checkForm}>
-						<div className="form-horizontal">
-							<h2>Welcome to the 2019 Christmas Secret Santa!</h2>
-
-							<br />
-
-							{/**UserIsValid(this.props.auth) && Cookies.get('User-Email') != null ? (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>) : ('')**/}
-							<p>Please select your name from the dropdown so that you don't accidentally draw yourself, and then click on <strong>Draw Name</strong> to randomly pick someone from your friend group.</p>
-							<p>If you don't see your name in the dropdown, please click <strong>Join the Fun</strong> in the header, or just click <Link to="/join-the-fun">this link</Link>.</p>
-
-							<hr />
-
-							<div className="form-group">
-								<label className="control-label col-md-2">Your Name:</label>
-								<div className="col-md-10">
-									<select
-										className="form-control user-input"
-										id="FirstName"
-										name="FirstName"
-										value={this.state.selectedName}
-										onChange={(e) => this.setState({
-											selectedName: e.target.value,
-											validationError: e.target.value === "" ? "Please select your name before clicking 'Draw Name'." : ""
-										})}>
-										{this.state.participantNames.map((name) => <option key={name.value} value={name.value}>{name.display}</option>)}
-									</select>
-									<div style={{ color: 'red', marginTop: '5px' }}>
-										{this.state.validationError}
-									</div>
-								</div>
-							</div>
-
-							<div className="form-group">
-								<div className="col-md-offset-2 col-md-10">
-									<input type="submit" value="Draw Name" name="myButton" id="myButton" className="btn btn-default christmas-green" />
-								</div>
-							</div>
-						</div>
-					</form>
+					<Grid container spacing={3}>
+						<Grid item xs={12} sm={6}>
+							<Card>
+								<CardContent>
+									<form onSubmit={this.checkForm}>
+										<div className="form-horizontal">
+											<h2>Welcome to the 2019 Christmas Secret Santa!</h2>
+											<br />
+											{/**UserIsValid(this.props.auth) && Cookies.get('User-Email') != null ? (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>) : ('')**/}
+											<p>Please select your name from the dropdown so that you don't accidentally draw yourself, and then click on <strong>Draw Name</strong> to randomly pick someone from the group.</p>
+											<p>If you don't see your name in the dropdown, please click <strong>Join the Fun</strong> in the header, or just click <Link to="/join-the-fun">this link</Link>.</p>
+											<hr />
+											<div className="form-group">
+												<label className="control-label col-md-4">Your Name:</label>
+												<div className="col-md-10">
+													<select
+														className="form-control user-input"
+														id="FirstName"
+														name="FirstName"
+														value={this.state.selectedName}
+														onChange={(e) => this.setState({
+															selectedName: e.target.value,
+															validationError: e.target.value === "" ? "Please select your name before clicking 'Draw Name'." : ""
+														})}>
+														{this.state.participantNames.map((name) => <option key={name.value} value={name.value}>{name.display}</option>)}
+													</select>
+													<div style={{ color: 'red', marginTop: '5px' }}>
+														{this.state.validationError}
+													</div>
+												</div>
+											</div>
+											<div className="form-group">
+												<div className="col-md-offset-2 col-md-10">
+													<input type="submit" value="Draw Name" name="myButton" id="myButton" className="btn btn-default christmas-green" />
+												</div>
+											</div>
+										</div>
+									</form>
+								</CardContent>
+							</Card>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<Card>
+								<CardContent>
+									<h2>Wishlists:</h2>
+									<br />
+									<p><Emoji text=":santa:" /><b>William:</b><br/>
+										1. Javelin "Instant Read Meat Thermometer" - <Link to="https://www.amazon.com/Lavatools-Javelin-Ambidextrous-Professional-Thermometer/dp/B01F59K0KA?psc=1&SubscriptionId=AKIAILSHYYTFIVPWUY6Q&tag=duckduckgo-iphone-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B01F59K0KA">Amazon Link</Link>.<br />
+										2. Grill Cover for Traeger Smoker - <Link to="https://www.amazon.com/Traeger-BAC379-Length-Grill-Cover/dp/B01BH3RVV4?psc=1&SubscriptionId=AKIAILSHYYTFIVPWUY6Q&tag=duckduckgo-iphone-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B01BH3RVV4">Amazon Link</Link>.
+									</p>
+									<p><Emoji text=":mrs_claus:" /><b>Lisa:</b><br />
+										1. Pedicure gift card for "The Polish Room" - <Link to="http://www.polishroom.com/">Link</Link>.
+									</p>
+									<p><Emoji text=":snowman:" /><b>Trevor:</b><br />
+										1. New authentic gray Vans shoes size 11 (the official color is called "pewter/black" but looks gray) - <Link to="https://www.vans.com/shop/authentic-pewter-black">Vans Link</Link>.
+									</p>
+									<p><Emoji text=":star2:" /><b>Wilhelmina:</b><br />
+										1. Size medium sweater (or multiple sweaters if they're cheap), with a collar, and not low cut. Pastel colors are good (soft blue, pink, red, lavender).
+									</p>
+									<p><Emoji text=":christmas_tree:" /><b>Paul:</b><br />
+										1. Book - "Witch Hunt" by Gregg Jarrett.<br />
+										2. Book - "Leakers, Liars, and Liberals" by Jeanine Pirro.<br />
+										3. Large pepperoni pizza (bring/order to be delivered to Desert Winds on the day of Christmas).
+									</p>
+									<p><Emoji text=":snowflake:" /><b>Marla Kay:</b><br />
+										1. "Fast Charger" for Android phone.<br />
+										2. "Very Cherry" Jelly Belly's (the red ones).
+									</p>
+								</CardContent>
+							</Card>
+						</Grid>
+					</Grid>
 				) : ('')}
 				{this.state.status === 1 || this.state.status === 2 ? (
-						<div className="form-horizontal">
+					<div className="form-horizontal">
 						<h2>{this.state.secretSanta[0]}</h2>
 						<p>{this.state.secretSanta[1]}</p>
 						<p><b>{this.state.secretSanta[2] ? this.state.secretSanta[2] : ''}</b> {this.state.secretSanta[3] ? [<Emoji text=":christmas_tree:" />, this.state.secretSanta[3], <Emoji text=":star2:" />] : ''}</p>
-
 						<center>
 							<button className="btn btn-primary hidden-print christmas-green" onClick={this.printPage}><span className="glyphicon glyphicon-print" aria-hidden="true"></span> Print</button>
 						</center>

@@ -5,6 +5,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import config from '../config.json';
 import Cookies from 'js-cookie';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 class JoinTheFun extends Component {
 	static displayName = JoinTheFun.name;
@@ -84,68 +87,77 @@ class JoinTheFun extends Component {
 
 	render() {
 		const date = new Date();
+		const classes = makeStyles(theme => ({
+			root: {
+				flexGrow: 1
+			}
+		}));
 		return (
-			<div>
-				{/**UserIsValid(this.props.auth) ? (
-					<div>**/}
+			<div className={classes.root}>
+				<Card>
+					<CardContent>
+						{/**UserIsValid(this.props.auth) ? (
+							<div>**/}
 						{this.state.status === 0 || this.state.status === 2 ? (
-							<form onSubmit={this.checkForm}>
-								<div className="form-horizontal">
-									<h2>Participate in {date.getFullYear()}'s Secret Santa!</h2>
+									<form onSubmit={this.checkForm}>
+										<div className="form-horizontal">
+											<h2>Participate in {date.getFullYear()}'s Secret Santa!</h2>
 
-									<br />
+											<br />
 
-									{/**Cookies.get('User-Email') == null ? (<p>Welcome!</p>) : (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>)**/}
-									<p>Please enter your name to join in on the fun this year!</p>
+											{/**Cookies.get('User-Email') == null ? (<p>Welcome!</p>) : (<p>Welcome, <strong>{Cookies.get('User-Email')}</strong>!</p>)**/}
+											<p>Please enter your name to join in on the fun this year!</p>
 
-									<hr />
+											<hr />
 
-									<div className="form-group">
-										<label className="control-label col-md-2 christmas-label">Your Name:</label>
-										<div className="col-md-10">
-											<input
-												className="form-control text-box single-line user-input"
-												id="Name"
-												name="Name"
-												placeholder="Santa Claus"
-												type="text"
-												value={this.state.inputName}
-												maxLength="50"
-												onChange={(e) => this.setState({ inputName: e.target.value.slice(0, 50) })} />
-											<div style={{ color: 'red', marginTop: '5px' }}>
-												{this.state.nameValidationError}
+											<div className="form-group">
+												<label className="control-label col-md-2 christmas-label">Your Name:</label>
+												<div className="col-md-10">
+													<input
+														className="form-control text-box single-line user-input"
+														id="Name"
+														name="Name"
+														placeholder="Santa Claus"
+														type="text"
+														value={this.state.inputName}
+														maxLength="50"
+														onChange={(e) => this.setState({ inputName: e.target.value.slice(0, 50) })} />
+													<div style={{ color: 'red', marginTop: '5px' }}>
+														{this.state.nameValidationError}
+													</div>
+												</div>
+											</div>
+
+											<div className="form-group">
+												<div className="col-md-offset-2 col-md-10">
+													<input type="submit" value="Join" name="myButton" id="myButton" className="btn btn-default christmas-green" />
+												</div>
 											</div>
 										</div>
-									</div>
+									</form>
+								) : (
+										<div className="form-horizontal">
+											<h2>Thanks for joining!</h2>
 
-									<div className="form-group">
-										<div className="col-md-offset-2 col-md-10">
-											<input type="submit" value="Join" name="myButton" id="myButton" className="btn btn-default christmas-green" />
+											<br />
+
+											<p>You can now draw a name by visiting <Link to="/">this link</Link>.</p>
 										</div>
-									</div>
-								</div>
-							</form>
+									)}
+						{/**</div>
 						) : (
-								<div className="form-horizontal">
-									<h2>Thanks for joining!</h2>
-
-									<br />
-
-									<p>You can now draw a name by visiting <Link to="/">this link</Link>.</p>
-								</div>
-							)}
-				{/**</div>
-				) : (
-						<Redirect
-							to={{
-								pathname: '/login',
-								state:
-								{
-									from: this.props.location
-								}
-							}}
-						/>
-					)}**/}
+								<Redirect
+									to={{
+										pathname: '/login',
+										state:
+										{
+											from: this.props.location
+										}
+									}}
+								/>
+							)}**/}
+					</CardContent>
+				</Card>
 			</div>
 		);
     }
