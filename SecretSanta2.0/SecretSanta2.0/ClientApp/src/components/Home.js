@@ -139,26 +139,26 @@ class Home extends Component {
 									<h2>Wishlists:</h2>
 									<br />
 									<p><Emoji text=":santa:" /><b>William:</b><br/>
-										1. Javelin "Instant Read Meat Thermometer" - <Link to="https://www.amazon.com/Lavatools-Javelin-Ambidextrous-Professional-Thermometer/dp/B01F59K0KA?psc=1&SubscriptionId=AKIAILSHYYTFIVPWUY6Q&tag=duckduckgo-iphone-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B01F59K0KA">Amazon Link</Link>.<br />
-										2. Grill Cover for Traeger Smoker - <Link to="https://www.amazon.com/Traeger-BAC379-Length-Grill-Cover/dp/B01BH3RVV4?psc=1&SubscriptionId=AKIAILSHYYTFIVPWUY6Q&tag=duckduckgo-iphone-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B01BH3RVV4">Amazon Link</Link>.
+										1. Javelin "Instant Read Meat Thermometer" - <a href="https://www.amazon.com/Lavatools-Javelin-Ambidextrous-Professional-Thermometer/dp/B01F59K0KA" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
+										2. Grill Cover for Traeger Smoker - <a href="https://www.amazon.com/Traeger-BAC379-Length-Grill-Cover/dp/B01BH3RVV4" target="_blank" rel="noopener noreferrer">Amazon Link</a>.
 									</p>
 									<p><Emoji text=":mrs_claus:" /><b>Lisa:</b><br />
-										1. Pedicure gift card for "The Polish Room" - <Link to="http://www.polishroom.com/">Link</Link>.
+										1. Pedicure gift card for "The Polish Room" - <a href="http://www.polishroom.com/" target="_blank" rel="noopener noreferrer">Link</a>.
 									</p>
 									<p><Emoji text=":snowman:" /><b>Trevor:</b><br />
-										1. New authentic gray Vans shoes size 11 (the official color is called "pewter/black" but looks gray) - <Link to="https://www.vans.com/shop/authentic-pewter-black">Vans Link</Link>.
+										1. New authentic gray Vans shoes size 11 (the official color is called "pewter/black" but looks gray) - <a href="https://www.vans.com/shop/authentic-pewter-black" target="_blank" rel="noopener noreferrer">Link</a>.
 									</p>
 									<p><Emoji text=":star2:" /><b>Wilhelmina:</b><br />
 										1. Size medium sweater (or multiple sweaters if they're cheap), with a collar, and not low cut. Pastel colors are good (soft blue, pink, red, lavender).
 									</p>
 									<p><Emoji text=":christmas_tree:" /><b>Paul:</b><br />
-										1. Book - "Witch Hunt" by Gregg Jarrett.<br />
-										2. Book - "Leakers, Liars, and Liberals" by Jeanine Pirro.<br />
+										1. Book - "Witch Hunt" by Gregg Jarrett - <a href="https://www.amazon.com/Witch-Hunt-Greatest-Delusion-Political/dp/0062960091" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
+										2. Book - "Liars, Leakers, and Liberals" by Jeanine Pirro - <a href="https://www.amazon.com/Liars-Leakers-Liberals-Anti-Trump-Conspiracy/dp/1546083421" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
 										3. Large pepperoni pizza (bring/order to be delivered to Desert Winds on the day of Christmas).
 									</p>
 									<p><Emoji text=":snowflake:" /><b>Marla Kay:</b><br />
-										1. "Fast Charger" for Android phone.<br />
-										2. "Very Cherry" Jelly Belly's (the red ones).
+										1. "Fast Charger" for Android phone - <a href="https://www.amazon.com/PowerBear-Charger-Qualcomm-Android-Samsung/dp/B01KJ293VA" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
+										2. "Very Cherry" Jelly Belly's (the red ones) - <a href="https://www.amazon.com/Very-Cherry-Jelly-Beans-Re-Sealable/dp/B0015D43NQ" target="_blank" rel="noopener noreferrer">Amazon Link</a>.
 									</p>
 								</CardContent>
 							</Card>
