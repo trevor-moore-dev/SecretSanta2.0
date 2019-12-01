@@ -138,6 +138,10 @@ class Home extends Component {
 								<CardContent>
 									<h2>Wishlists:</h2>
 									<br />
+									<p><Emoji text=":stars:" /><b>Tina:</b><br />
+										1. Cuisinart Hand Mixer - <a href="https://www.walmart.com/ip/Cuisinart-Power-Advantage-PLUS-5-Speed-220-Watt-Hand-Mixer-White/35491906" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										2. Black & Decker Citrus Juicer - <a href="https://www.walmart.com/ip/BLACK-DECKER-32oz-Citrus-Juicer-with-Self-reversing-Cone-White-CJ650W/112571551" target="_blank" rel="noopener noreferrer">Link</a>.
+									</p>
 									<p><Emoji text=":santa:" /><b>William:</b><br/>
 										1. Javelin "Instant Read Meat Thermometer" - <a href="https://www.amazon.com/Lavatools-Javelin-Ambidextrous-Professional-Thermometer/dp/B01F59K0KA" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
 										2. Grill Cover for Traeger Smoker - <a href="https://www.amazon.com/Traeger-BAC379-Length-Grill-Cover/dp/B01BH3RVV4" target="_blank" rel="noopener noreferrer">Amazon Link</a>.
@@ -157,7 +161,7 @@ class Home extends Component {
 										3. Large pepperoni pizza (bring/order to be delivered to Desert Winds on the day of Christmas).
 									</p>
 									<p><Emoji text=":snowflake:" /><b>Marla Kay:</b><br />
-										1. "Fast Charger" for Android phone - <a href="https://www.amazon.com/PowerBear-Charger-Qualcomm-Android-Samsung/dp/B01KJ293VA" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
+										1. DVD Player - <a href="https://www.amazon.com/Sony-DVPSR210P-DVD-Player/dp/B07RYRF1FF/ref=zg_bs_1036922_1?_encoding=UTF8&refRID=22QB40HHG2EV1Z1V6ZVB&th=1" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
 										2. "Very Cherry" Jelly Belly's (the red ones) - <a href="https://www.amazon.com/Very-Cherry-Jelly-Beans-Re-Sealable/dp/B0015D43NQ" target="_blank" rel="noopener noreferrer">Amazon Link</a>.
 									</p>
 								</CardContent>
