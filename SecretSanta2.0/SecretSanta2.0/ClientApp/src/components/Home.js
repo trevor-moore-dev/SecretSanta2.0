@@ -138,6 +138,19 @@ class Home extends Component {
 								<CardContent>
 									<h2>Wishlists:</h2>
 									<br />
+									<p><Emoji text=":sparkles:" /><b>Gaston:</b><br />
+										1. Rayban Original Wayfarer Remix Sunglasses - <a href="https://www.ray-ban.com/usa/sunglasses/RB2140%20UNISEX%20062-original%20wayfarer%20classic-polished%20black/805289126577?category_Id=1725706" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										2. FL Kodiak Pack Xtra Backpack - <a href="https://www.sportsmans.com/camping-gear-supplies/backpacks-bags/technical-day-packs/fl-kodiak-pack-xtra/p/1389680" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										3. American Endurance Men's Full Grain Leather with Roller Buckle Belt - <a href="https://www.sportsmans.com/clothing-outdoor-casual-men-women-youth/mens-casual/belts-accessories/american-endurance-mens-full-grain-leather-with-roller-buckle/p/p1361279" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										4. Stealth Cam Trail Camera Combo - <a href="https://www.sportsmans.com/hunting-gear-supplies/trail-cameras-accessories/stealth-cam-trail-camera-combo/p/1469851" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										5. Buck Knives Sentry Knife - <a href="https://www.sportsmans.com/knives/tactical-knives/buck-knives-sentry-knife/p/1469704" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										6. Radians T-71 Safety Shooting Glasses - <a href="https://www.sportsmans.com/shooting-gear-gun-supplies/shooting-equipment/eye-protection/radians-t-71-safety-shooting-glasses/p/p42160" target="_blank" rel="noopener noreferrer">Link</a>.
+									</p>
+									<p><Emoji text=":christmasparrot:" /><b>Jon:</b><br />
+										1. Book - "Jeppesen Instrument Commercial" (New/Hardback) - <a href="https://www.amazon.com/Jeppesen-Instrument-Commercial-Staff/dp/0884873870/ref=pd_sbs_14_2/147-6436853-0125324" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
+										2. Book - "Guided Flight Discovery Private Pilot Handbook" (New/Paperback) - <a href="https://www.amazon.com/Guided-Flight-Discovery-Private-Handbook/dp/0884873331/ref=sr_1_7" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
+										3. Book - "Learn Python Programming: The no-nonsense, beginner's guide to programming, data science, and web development with Python 3.7, 2nd Edition" (New/Paperback) - <a href="https://www.amazon.com/dp/1788996666" target="_blank" rel="noopener noreferrer">Amazon Link</a>.
+									</p>
 									<p><Emoji text=":stars:" /><b>Tina:</b><br />
 										1. Cuisinart Hand Mixer - <a href="https://www.walmart.com/ip/Cuisinart-Power-Advantage-PLUS-5-Speed-220-Watt-Hand-Mixer-White/35491906" target="_blank" rel="noopener noreferrer">Link</a>.<br />
 										2. Black & Decker Citrus Juicer - <a href="https://www.walmart.com/ip/BLACK-DECKER-32oz-Citrus-Juicer-with-Self-reversing-Cone-White-CJ650W/112571551" target="_blank" rel="noopener noreferrer">Link</a>.
@@ -147,7 +160,9 @@ class Home extends Component {
 										2. Grill Cover for Traeger Smoker - <a href="https://www.amazon.com/Traeger-BAC379-Length-Grill-Cover/dp/B01BH3RVV4" target="_blank" rel="noopener noreferrer">Amazon Link</a>.
 									</p>
 									<p><Emoji text=":mrs_claus:" /><b>Lisa:</b><br />
-										1. Pedicure gift card for "The Polish Room" - <a href="http://www.polishroom.com/" target="_blank" rel="noopener noreferrer">Link</a>.
+										1. Pedicure gift card for "The Polish Room" - <a href="http://www.polishroom.com/" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										2. Swarovski® 2019 Crystal Christmas Ornament - <a href="https://www.bedbathandbeyond.com/store/product/swarovski-reg-2019-annual-edition-star-christmas-ornament/5345286" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										3. Joann's Custom Pin Cushion - <a href="https://www.joann.com/wide-leaf-succulent-pin-cushion/15954472.html" target="_blank" rel="noopener noreferrer">Link</a>.
 									</p>
 									<p><Emoji text=":snowman:" /><b>Trevor:</b><br />
 										1. New authentic gray Vans shoes size 11 (the official color is called "pewter/black" but looks gray) - <a href="https://www.vans.com/shop/authentic-pewter-black" target="_blank" rel="noopener noreferrer">Link</a>.
