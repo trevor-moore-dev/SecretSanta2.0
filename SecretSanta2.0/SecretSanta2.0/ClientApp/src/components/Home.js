@@ -161,7 +161,7 @@ class Home extends Component {
 									</p>
 									<p><Emoji text=":mrs_claus:" /><b>Lisa:</b><br />
 										1. Pedicure gift card for "The Polish Room" - <a href="http://www.polishroom.com/" target="_blank" rel="noopener noreferrer">Link</a>.<br />
-										2. Swarovski® 2019 Crystal Christmas Ornament - <a href="https://www.bedbathandbeyond.com/store/product/swarovski-reg-2019-annual-edition-star-christmas-ornament/5345286" target="_blank" rel="noopener noreferrer">Link</a>.<br />
+										2. Swarovski 2019 Crystal Christmas Ornament - <a href="https://www.bedbathandbeyond.com/store/product/swarovski-reg-2019-annual-edition-star-christmas-ornament/5345286" target="_blank" rel="noopener noreferrer">Link</a>.<br />
 										3. Joann's Custom Pin Cushion - <a href="https://www.joann.com/wide-leaf-succulent-pin-cushion/15954472.html" target="_blank" rel="noopener noreferrer">Link</a>.
 									</p>
 									<p><Emoji text=":snowman:" /><b>Trevor:</b><br />
