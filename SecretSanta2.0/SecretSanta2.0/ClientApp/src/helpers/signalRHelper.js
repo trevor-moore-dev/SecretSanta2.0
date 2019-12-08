@@ -9,7 +9,7 @@ export async function getSignalRConnection(state, url) {
             await connection.start();
             console.log('Connected to SignalR!');
             connection.onclose(() => {
-                alert('Connection with SignalR has closed.');
+                console.log('Connection with SignalR has closed.');
             });
             return connection;
         }
