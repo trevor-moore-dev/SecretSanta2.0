@@ -146,7 +146,7 @@ class Home extends Component {
 										5. Buck Knives Sentry Knife - <a href="https://www.sportsmans.com/knives/tactical-knives/buck-knives-sentry-knife/p/1469704" target="_blank" rel="noopener noreferrer">Link</a>.<br />
 										6. Radians T-71 Safety Shooting Glasses - <a href="https://www.sportsmans.com/shooting-gear-gun-supplies/shooting-equipment/eye-protection/radians-t-71-safety-shooting-glasses/p/p42160" target="_blank" rel="noopener noreferrer">Link</a>.
 									</p>
-									<p><Emoji text=":christmasparrot:" /><b>Jon:</b><br />
+									<p><Emoji text=":airplane:" /><b>Jon:</b><br />
 										1. Book - "Jeppesen Instrument Commercial" (New/Hardback) - <a href="https://www.amazon.com/Jeppesen-Instrument-Commercial-Staff/dp/0884873870/ref=pd_sbs_14_2/147-6436853-0125324" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
 										2. Book - "Guided Flight Discovery Private Pilot Handbook" (New/Paperback) - <a href="https://www.amazon.com/Guided-Flight-Discovery-Private-Handbook/dp/0884873331/ref=sr_1_7" target="_blank" rel="noopener noreferrer">Amazon Link</a>.<br />
 										3. Book - "Learn Python Programming: The no-nonsense, beginner's guide to programming, data science, and web development with Python 3.7, 2nd Edition" (New/Paperback) - <a href="https://www.amazon.com/dp/1788996666" target="_blank" rel="noopener noreferrer">Amazon Link</a>.
