@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SecretSanta2._0.Models.DB;
 using SecretSanta2._0.Models.DTO;
 using SecretSanta2._0.Services.Business;
@@ -13,6 +14,7 @@ using SecretSanta2._0.Services.Business.Interfaces;
 using SecretSanta2._0.Services.Data;
 using SecretSanta2._0.Services.Data.Interfaces;
 using SecretSanta2._0.Services.Hubs;
+using System;
 using System.Text;
 
 namespace SecretSanta2._0
@@ -48,6 +50,28 @@ namespace SecretSanta2._0
 			});
 
 			services.AddControllersWithViews();
+
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo
+				{
+					Version = "v1",
+					Title = "SecretSanta2.0 API",
+					Description = "ASP.NET Core Web API for Trevor's Secret Santa",
+					TermsOfService = new Uri("https://trevormoore.dev/"),
+					Contact = new OpenApiContact
+					{
+						Name = "Trevor Moore",
+						Email = "TMMooreGCU@gmail.com",
+						Url = new Uri("https://www.youtube.com/watch?v=6-HUgzYPm9g"),
+					},
+					License = new OpenApiLicense
+					{
+						Name = "Use under MIT",
+						Url = new Uri("https://opensource.org/licenses/MIT"),
+					}
+				});
+			});
 
 			services.AddAuthentication()
 				.AddJwtBearer(cfg =>
@@ -100,6 +124,12 @@ namespace SecretSanta2._0
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			app.UseSwagger();
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+			});
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -119,7 +149,7 @@ namespace SecretSanta2._0
 			app.UseAuthorization();
 			app.UseCookiePolicy();
 
-            app.UseEndpoints(endpoints =>
+			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
